@@ -25,18 +25,18 @@ public  class MainActivity extends ListActivity{
 	public String loadedListName;
 	public  CustomArrayAdapter loadListAdapter;
 	public Vibrator vibrator;
-	
+
 	EditText itemInputBox;
 	ListView itemsList;
 	TextView listName;
-	
+
 	public int listSelection;
 	AlertDialog.Builder listDialog;
 	public int listDialogSelection;
 	public ArrayList<String> DBLists;
 	AlertDialog.Builder inputDialog;
 	EditText inputDialogTextBox;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -46,13 +46,14 @@ public  class MainActivity extends ListActivity{
 		loadedItemsList = new ArrayList<String>();
 		itemInputBox = (EditText)findViewById(R.id.editText1);
 		listName = (TextView)findViewById(R.id.textView1);
+		loadedListName = getString(R.string.placeholder);
 		itemsList = getListView();
 		loadListAdapter = new CustomArrayAdapter(this,loadedItemsList);
 		DBLists = new ArrayList<String>();
-		
+
 		DBConnection = new DBCommander(this);
-		itemsList.setAdapter(loadListAdapter);	
-		
+		itemsList.setAdapter(loadListAdapter);
+
 		inputDialog = new AlertDialog.Builder(this);
 		inputDialogTextBox = new EditText(this);
 		inputDialog.setMessage("Name your List");
@@ -62,24 +63,24 @@ public  class MainActivity extends ListActivity{
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				listName.setText(inputDialogTextBox.getText().toString());
-				
+
 			}
 		});
-		
+
 		listDialog = new AlertDialog.Builder(this);
 		listDialog.setTitle("Select a List");
 		itemsList.setOnItemClickListener(new OnItemClickListener()
 		{
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) 
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3)
 			{
 				vibrator.vibrate(50);
 				arg1.setSelected(true);
 				listSelection = arg2;
 			}
 		});
-		
-		
+
+
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
@@ -126,7 +127,7 @@ public  class MainActivity extends ListActivity{
 			if(!DBLists.isEmpty());
 			{
 			listDialog.setItems(DBLists.toArray(new String[DBLists.size()]), new DialogInterface.OnClickListener() {
-				
+
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					loadedItemsList = DBConnection.getList(DBLists.get(which));
@@ -157,7 +158,7 @@ public  class MainActivity extends ListActivity{
 			if(!DBLists.isEmpty());
 			{
 			listDialog.setItems(DBLists.toArray(new String[DBLists.size()]), new DialogInterface.OnClickListener() {
-				
+
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					DBConnection.deleteList(DBLists.get(which));
@@ -177,7 +178,7 @@ public  class MainActivity extends ListActivity{
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
-		}	
+		}
 	}
 	@Override
 	public void onPause()
@@ -197,6 +198,6 @@ public  class MainActivity extends ListActivity{
 		}
 		super.onResume();
 	}
-	
-	
+
+
 }
